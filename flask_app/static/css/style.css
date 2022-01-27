@@ -1,0 +1,34 @@
+.register-cont, .edit-cont {
+    width: 700px;
+    margin-top: 4%;
+}
+
+.login-cont {
+    width: 500px;
+    margin-top: 20%;
+}
+
+.pass-cont {
+    width: 500px;
+    margin-top: 15%;
+}
+
+.login-btn {
+    width: 150px;
+}
+
+.pass-btn {
+    width: 200px;
+}
+
+.register-btn {
+    width: 150px;
+}
+
+.vertical-align {
+    margin: auto 0;
+}
+
+.main-info {
+    width: 65%;
+}

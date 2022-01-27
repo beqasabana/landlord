@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script defer type="text/javascript" src="{{ url_for('static', filename='js/my_script.js') }}"></script>
+    <title>Register</title>
+</head>
+<body>
+
+    <div class="register-cont index container overflow-hidden">
+        <div class="registration-cont p-3 border bg-light">
+            <form action="/register/user" method="post">
+                <div class="mb-3">
+                    <label for="first_name" class="form-label">* First Name:</label>
+                    <p>{{ get_flashed_messages(category_filter=["registration-error"])[0] }}</p>
+                    <input name="first_name" type="text" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="last_name" class="form-label">* Last Name:</label>
+                    <p>{{ get_flashed_messages(category_filter=["registration-error"])[1] }}</p>
+                    <input name="last_name" type="text" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">* Email address:</label>
+                    {{ get_flashed_messages(category_filter=["registration-error"])[2] }}
+                    <input name="email" type="email" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="nickname" class="form-label">Nickname:</label>
+                    <input name="nickname" type="text" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">* Password:</label>
+                    <p>{{ get_flashed_messages(category_filter=["registration-error"])[3] }}</p>
+                    <input name="password" type="password" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="password-conf" class="form-label">* Confirm Password:</label>
+                    <input name="password-conf" type="password" class="form-control">
+                </div>
+                <div class="text-center"><button type="submit" class="register-btn btn btn-primary">Register</button></div>
+            </form>
+            <div class="text-center mt-3">
+                <a class="me-2" href="/login">Login</a>
+                <a class="ms-2" href="/">Home</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    -->
+</body>
+</html>

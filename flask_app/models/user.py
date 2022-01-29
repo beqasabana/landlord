@@ -17,18 +17,21 @@ class User:
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
 
+    # inserts new user in DB
     @classmethod
     def create(cls, data):
         query = "INSERT INTO users (first_name, last_name, email, nickname, password) VALUES(%(first_name)s, %(last_name)s, %(email)s, %(nickname)s, %(password)s);"
         user_id = connectToMySQL('landlord').query_db(query, data)
         return user_id
 
+    # retrives one user from DB by ID
     @classmethod
     def get_user_by_id(cls, data):
         query = "SELECT * FROM users WHERE users.id = %(id)s;"
         user = connectToMySQL('landlord').query_db(query, data)
         return cls(user[0])
 
+    # retrives one user from DB by EMAIL
     @classmethod
     def get_user_by_email(cls, data):
         query = "SELECT * FROM users WHERE users.email = %(email)s;"
@@ -37,6 +40,7 @@ class User:
             return cls(user[0])
         return False
 
+    # retrives all users form DB
     @classmethod
     def get_all(cls):
         query = "SELECT * FROM users"
@@ -46,6 +50,21 @@ class User:
             users_cls.append(cls(user))
         return users_cls
 
+    # updates users info user ID needs to be provided with new data
+    @classmethod
+    def update_user(cls, data):
+        query = "UPDATE users SET first_name = %(first_name)s, last_name = %(last_name)s, email = %(email)s, nickname = %(nickname)s WHERE id = %(id)s;"
+        result = connectToMySQL('landlord').query_db(query, data)
+        return result
+
+    # changes user password user ID needs to be provided with new password
+    @classmethod
+    def update_password(cls, data):
+        query = "UPDATE users SET password = %(password)s WHERE id = %(id)s;"
+        result = connectToMySQL('landlord').query_db(query, data)
+        return result
+
+    # email validation function
     @staticmethod
     def validate_email(form):
         is_valid = True
@@ -60,6 +79,7 @@ class User:
                 is_valid = False
         return is_valid
 
+    # user info and password validation function
     @staticmethod
     def validate_registation(form):
         is_valid = True
@@ -79,6 +99,7 @@ class User:
             is_valid = False
         return is_valid
 
+    # loging validation function if user provides correct email and password user ID is returned
     @staticmethod
     def validate_login(form):
         is_valid = True
@@ -96,20 +117,8 @@ class User:
             return is_valid
         return user.id
 
-    @classmethod
-    def update_user(cls, data):
-        query = "UPDATE users SET first_name = %(first_name)s, last_name = %(last_name)s, email = %(email)s, nickname = %(nickname)s WHERE id = %(id)s;"
-        result = connectToMySQL('landlord').query_db(query, data)
-        return result
 
-    @classmethod
-    def update_password(cls, data):
-        query = "UPDATE users SET password = %(password)s WHERE id = %(id)s;"
-        result = connectToMySQL('landlord').query_db(query, data)
-        return result
-
-
-# does not work properly needs to be reworked
+    # does not work properly needs to be reworked
     @staticmethod
     def validate_update(form):
         is_valid = True
@@ -122,13 +131,10 @@ class User:
         is_valid = User.validate_email(form)
         return is_valid
 
+    # validates password change checks old password and new password strength
     @staticmethod
-    def validate_password_change(form, email=None):
+    def validate_password_change(form, user=None):
         is_valid = True
-        data = {
-            'email': email
-        }
-        user = User.get_user_by_email(data)
         if not users.bcrypt.check_password_hash(user.password, form['old_password']):
             is_valid = False
             flash("Old Password is Wrong.", 'password-error')

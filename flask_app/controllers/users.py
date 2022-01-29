@@ -104,7 +104,7 @@ def change_password():
     user = User.get_user_by_id({
         'id': session['user']
     })
-    if not User.validate_password_change(request.form, user.email):
+    if not User.validate_password_change(request.form, user):
         return redirect('/change/password')
     password_data = {
         'id': user.id,

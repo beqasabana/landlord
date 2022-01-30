@@ -7,7 +7,7 @@ from flask_app.controllers import users
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 class User:
-    def __init__(self,data):
+    def __init__(self, data):
         self.id = data['id']
         self.first_name = data['first_name']
         self.last_name = data['last_name']

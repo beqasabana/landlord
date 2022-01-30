@@ -1,5 +1,7 @@
 from flask_app.config.mysqlconnection import connectToMySQL
+from flask import flash
 from flask_app.models.user import User
+from flask_app.models.review import Review
 
 
 class Landlord:
@@ -11,3 +13,31 @@ class Landlord:
         self.reviews = []
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+
+    # retrives one landlord with reviews from DB, landlord row id needs to be provided
+    @classmethod
+    def get_landlord_by_id(cls, data):
+        query = "SELECT * FROM landlords JOIN reviews ON landlords.id=landlord_id JOIN users ON reviews.user_id=users.id WHERE landlords.id=%(id)s"
+        landlord_db = connectToMySQL('landlord').query_db(query, data)
+        landlord_cls = Landlord(landlord_db[0])
+        
+        for data in landlord_db:
+            review_data = {
+                'id': data['reviews.id'],
+                'landlord_id': data['landlord_id'],
+                'text': data['text'],
+                'created_at': data['reviews.created_at'],
+                'updated_at': data['reviews.updated_at'],
+                'user_data': {
+                    'id': data['users.id'],
+                    'first_name': data['first_name'],
+                    'last_name': data['last_name'],
+                    'email': data['email'],
+                    'nickname': data['nickname'],
+                    'password': data['password'],
+                    'created_at': data['users.created_at'],
+                    'updated_at': data['users.updated_at']
+                }
+            }
+            landlord_cls.reviews.append(Review(review_data))
+        return landlord_cls

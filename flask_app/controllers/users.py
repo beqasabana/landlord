@@ -9,7 +9,6 @@ bcrypt = Bcrypt(app)
 
 @app.route('/')
 def index():
-    data = {'id': 1}
     if 'user' in session:
         data = {
             'id': session['user']

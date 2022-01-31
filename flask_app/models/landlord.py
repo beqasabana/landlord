@@ -41,3 +41,17 @@ class Landlord:
             }
             landlord_cls.reviews.append(Review(review_data))
         return landlord_cls
+
+    # static method for validating landlord info flashes messages for incorrect or incomplete data
+    # takes in form as an argument
+    # returns True if form is correct otherwise returns False
+    @staticmethod
+    def validate_landlord_info(form):
+        is_valid = True
+        if len(form['name']) <= 0:
+            is_valid = False
+            flash("Review text can`t be empty.", 'landlord-error')
+        if len(form['address']) <= 0:
+            is_valid = False
+            flash("Landlord address is required", 'landlord-error')
+        return is_valid

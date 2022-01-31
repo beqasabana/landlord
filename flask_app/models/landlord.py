@@ -42,6 +42,13 @@ class Landlord:
             landlord_cls.reviews.append(Review(review_data))
         return landlord_cls
 
+    # method for adding ratings
+    @classmethod
+    def add_rating(cls, data):
+        query = "INSERT INTO ratings (landlord_id, user_id, rating) VALUES (%(landlord_id)s, %(user_id)s, %(rating)s);"
+        result = connectToMySQL('landlord').query_db(query, data)
+        return result
+
     # static method for validating landlord info flashes messages for incorrect or incomplete data
     # takes in form as an argument
     # returns True if form is correct otherwise returns False

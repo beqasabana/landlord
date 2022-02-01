@@ -50,25 +50,30 @@ class Landlord:
     # get all landlords
     @classmethod
     def get_all(cls):
-        query = "SELECT * FROM landlords JOIN reviews ON landlords.id=reviews.landlord_id;"
+        query = "SELECT * FROM landlords LEFT JOIN reviews ON landlords.id=reviews.landlord_id;"
         results = connectToMySQL('landlord').query_db(query)
         all_landlords = []
         loop_position = 0
         rating_count = 0
         sum_of_ratings = 0
-        all_landlords.append(results[0])
+        all_landlords.append(Landlord(results[0]))
         rating_count += 1
-        sum_of_ratings += row['rating']
-        result.pop(0)
+        sum_of_ratings += results[0]['rating']
+        results.pop(0)
         for row in results:
-            if row['id'] != results[loop_position+1]['id']:
+            if all_landlords[-1].id != row['id']:
                 all_landlords[-1].avg_rating = round(sum_of_ratings/rating_count)
-                all_landlords.append(cls(row))
                 rating_count = 0
                 sum_of_ratings = 0
-            rating_count += 1
-            sum_of_ratings += row['rating']
+                all_landlords.append(Landlord(row))
             loop_position += 1
+            rating_count += 1
+            try:
+                sum_of_ratings += row['rating']
+            except TypeError:
+                sum_of_ratings += 0
+            if loop_position >= len(results):
+                all_landlords[-1].avg_rating = round(sum_of_ratings/rating_count)
         return all_landlords
 
     # delete landlord from db needs row id

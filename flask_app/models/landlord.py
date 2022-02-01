@@ -41,7 +41,24 @@ class Landlord:
             }
             landlord_cls.reviews.append(Review(review_data))
         return landlord_cls
+      
+    # get all landlords
+    @classmethod
+    def get_all(cls):
+        query = "SELECT * FROM landlords;"
+        results = connectToMySQL('landlord').query_db(query)
+        all_landlords = []
+        for row in results:
+            all_landlords.append(cls(row))
+        return all_landlords
 
+    # method for adding landlord
+    @classmethod
+    def add_landlord(cls, data):
+        query = "INSERT INTO landlords (name, user_id, address) VALUES (%(name)s, %(user_id)s, %(address)s);"
+        result = connectToMySQL('landlord').query_db(query, data)
+        return result
+      
     # method for adding ratings
     @classmethod
     def add_rating(cls, data):

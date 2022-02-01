@@ -14,7 +14,7 @@
 <body>
     <!--NavBar Start-->
     <nav class="navbar navbar-expand-lg navbar-light bg-secondary d-flex justify-content-between align-items-center col-12">
-        <h1 class="text-center">Welcome {{user.f_name}} {{user.l_name}}!</h1>
+        <h1 class="text-center">Welcome {{user.first_name}} {{user.last_name}}!</h1>
 
         <div class="d-flex col-4 justify-content-around">
             <a class="btn btn-warning" href="/dashboard" >Dashboard</a>
@@ -24,7 +24,7 @@
     <h1></h1>
     <!--Alerts-->
     <div class="d-flex justify-content-around">
-        <form action='/landlord/create' method="post" id=create_landlord class="col-4 p-4 bg-secondary">
+        <form action='/create/landlord' method="POST" id=create_landlord class="col-4 p-4 bg-secondary">
             {% with messages = get_flashed_messages(category_filter=['landlord']) %}
                 {% if messages %}
                 <div class="alert alert-danger" role="alert">
@@ -40,7 +40,7 @@
             <div class='form-group'>
                 <h1>Add a Landlord</h1>
                 <label for="name">Name:</label><br>
-                <input type="text" id="landlord" name="landlord"><br>
+                <input type="text" id="name" name="name"><br>
 
                 <label for="address">Address:</label><br>
                 <input type="text" id="address" name="address"><br>

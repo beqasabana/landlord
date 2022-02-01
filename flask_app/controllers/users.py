@@ -21,7 +21,7 @@ def index():
 def register_view():
     if 'user' in session:
         return redirect('/')
-    return render_template('register.html')
+    return render_template('register_login.html')
 
 @app.route('/edit/profile')
 def update_profile_view():
@@ -37,7 +37,7 @@ def update_profile_view():
 def login_view():
     if 'user' in session:
         return redirect('/')
-    return render_template('login.html')
+    return render_template('register_login.html')
 
 @app.route('/profile/<string:name>/<int:id>')
 def dashboard(name, id):
@@ -46,7 +46,8 @@ def dashboard(name, id):
             'id': session['user']
         }
         active_user = User.get_user_by_id(data)
-        return render_template('profile.html', active_user=active_user)
+        landlords_from_db = Landlord.get_all()
+        return render_template('dashboard.html', user=active_user, landlords_from_db=landlords_from_db)
     else:
         flash("You are not logged in!", 'not-loggedin')
         return redirect('/')
@@ -63,13 +64,15 @@ def register_user():
         'nickname': request.form['nickname']
     }
     session['user'] = User.create(data)
-    return redirect('/')
+    route = '/profile/' + data['first_name']+'/'+ str(session['user'])
+    return redirect(route)
 
 @app.route('/login/validation', methods=['POST'])
 def login():
     if User.validate_login(request.form):
         session['user'] = User.validate_login(request.form)
-        return redirect('/')
+        route = '/profile/' + User.get_user_by_id({'id':session['user']}).first_name +'/'+ str(session['user'])
+        return redirect(route)
     return redirect('/login')
 
 @app.route('/logout')

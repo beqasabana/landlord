@@ -26,5 +26,20 @@ def create_landlord():
         'address': request.form['address'],
     }
     new_landlord_id = Landlord.add_landlord(landlord_info)
+    try:
+        review_data = {
+            'landlord_id': new_landlord_id,
+            'user_id': session['user'],
+            'rating': request.form['rating'],
+            'text': request.form['review']
+        }
+    except KeyError:
+        review_data = {
+            'landlord_id': new_landlord_id,
+            'user_id': session['user'],
+            'rating': 0,
+            'text': request.form['review']
+        }
+    review_added = Review.save(review_data)
     this_user = User.get_user_by_id({'id': session['user']})
     return redirect('/profile/' + this_user.first_name +'/'+ str(session['user']))

@@ -15,7 +15,7 @@ class Review:
     # returns inserted row id or False if something goes wrong
     @classmethod
     def save(cls, data):
-        query = "INSERT INTO reviews (landlord_id, user_id, text) VALUES (%(landlord_id)s, %(user_id)s, %(text)s);"
+        query = "INSERT INTO reviews (landlord_id, user_id, rating, text) VALUES (%(landlord_id)s, %(user_id)s, %(rating)s, %(text)s);"
         review_id = connectToMySQL('landlord').query_db(query, data)
         return review_id
 

@@ -10,6 +10,7 @@ class Landlord:
         self.user = User.get_user_by_id({'id': data['user_id']})
         self.name = data['name']
         self.address = data['address']
+        self.avg_rating = 0
         self.reviews = []
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
@@ -20,7 +21,8 @@ class Landlord:
         query = "SELECT * FROM landlords JOIN reviews ON landlords.id=landlord_id JOIN users ON reviews.user_id=users.id WHERE landlords.id=%(id)s"
         landlord_db = connectToMySQL('landlord').query_db(query, data)
         landlord_cls = Landlord(landlord_db[0])
-        
+        rating_count = 0
+        sum_of_ratings = 0
         for data in landlord_db:
             review_data = {
                 'id': data['reviews.id'],
@@ -39,18 +41,51 @@ class Landlord:
                     'updated_at': data['users.updated_at']
                 }
             }
+            rating_count += 1
+            sum_of_ratings += data['rating']
             landlord_cls.reviews.append(Review(review_data))
+        landlord_cls.avg_rating = round((sum_of_ratings/rating_count))
         return landlord_cls
-      
+
     # get all landlords
     @classmethod
     def get_all(cls):
-        query = "SELECT * FROM landlords;"
+        query = "SELECT * FROM landlords JOIN reviews ON landlords.id=reviews.landlord_id;"
         results = connectToMySQL('landlord').query_db(query)
         all_landlords = []
+        loop_position = 0
+        rating_count = 0
+        sum_of_ratings = 0
+        all_landlords.append(results[0])
+        rating_count += 1
+        sum_of_ratings += row['rating']
+        result.pop(0)
         for row in results:
-            all_landlords.append(cls(row))
+            if row['id'] != results[loop_position+1]['id']:
+                all_landlords[-1].avg_rating = round(sum_of_ratings/rating_count)
+                all_landlords.append(cls(row))
+                rating_count = 0
+                sum_of_ratings = 0
+            rating_count += 1
+            sum_of_ratings += row['rating']
+            loop_position += 1
         return all_landlords
+
+    # delete landlord from db needs row id
+    @classmethod
+    def delete(cls, data):
+        query_landlord = "DELETE FROM landlords WHERE id=%(id)s"
+        query_review = "DELETE FROM reviews WHERE landlord_id=%(id)s" 
+        connectToMySQL('landlord').query_db(query_landlord, data)
+        connectToMySQL('landlord').query_db(query_review, data)
+        return
+
+    # update/edit landlord query need name address and landlord row id to update 
+    @classmethod
+    def update(cls, data):
+        query = "UPDATE landlords SET name=%(name)s, address=%(address)s WHERE id=%(id)s;"
+        connectToMySQL('landlord').query_db(query, data)
+        return
 
     # method for adding landlord
     @classmethod
@@ -58,7 +93,7 @@ class Landlord:
         query = "INSERT INTO landlords (name, user_id, address) VALUES (%(name)s, %(user_id)s, %(address)s);"
         result = connectToMySQL('landlord').query_db(query, data)
         return result
-      
+
     # method for adding ratings
     @classmethod
     def add_rating(cls, data):

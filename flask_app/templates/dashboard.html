@@ -23,7 +23,7 @@
             <h5 class="card-title">{{landlord.name}}</a></h5>
             <h6 class="card-subtitle mb-2 text-white">Average Rating: {{landlord.get_average_rating()}}</h6>
                 <div class="card-footer bg-secondary text-white">
-                    {% if landlord.user_id == session.user_id %}
+                    {% if landlord.user.id == session.user %}
                         <a class="card-link text-warning" href="/edit/landlord/{{landlord.id}}"> Edit</a><span> |</span>
                         <form class = "text-style-4" action="/destroy/landlord/{{landlord.id}}" method = "POST">
                             <input type="submit" value = "Delete" class = "text-style-4"> <span> |</span>

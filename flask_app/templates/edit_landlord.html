@@ -24,7 +24,7 @@
     <h1></h1>
     <!--Alerts-->
     <div class="d-flex justify-content-around">
-        <form action='/create/landlord' method="POST" id=create_landlord class="col-4 p-4 bg-secondary">
+        <form action='/update/landlord/{{landlord.id}}' method="POST" id=create_landlord class="col-4 p-4 bg-secondary">
             {% with messages = get_flashed_messages(category_filter=['landlord']) %}
                 {% if messages %}
                 <div class="alert alert-danger" role="alert">
@@ -38,39 +38,12 @@
 
             <!--Form Input Start-->
             <div class='form-group'>
-                <h1>Add a Landlord</h1>
+                <h1>Update a Landlord</h1>
                 <label for="name">Name:</label><br>
-                <input type="text" id="name" name="name"><br>
-
+                <input type="text" id="name" name="name" value="{{landlord.name}}"><br>
                 <label for="address">Address:</label><br>
-                <input type="text" id="address" name="address"><br>
-
-            <!--Star Rating System-->
-            <div class="container mt-3">
-                <div class="star-widget">
-                    <input type="radio" name="rating" id="rate-5" value="5">
-                    <label for="rate-5"class="fas fa-star" value="5"></label>
-                    
-                    <input type="radio" name="rating" id="rate-4" value="4">
-                    <label for="rate-4" class="fas fa-star" value="4"></label>
-                    
-                    <input type="radio" name="rating" id="rate-3" value="3">
-                    <label for="rate-3" class="fas fa-star" value="3"></label>
-                    
-                    <input type="radio" name="rating" id="rate-2" value="2">
-                    <label for="rate-2" class="fas fa-star" value="2"></label>
-                    
-                    <input type="radio" name="rating" id="rate-1" value="1">
-                    <label for="rate-1" class="fas fa-star" value="1"></label>
-                </div>
-            </div>
-            <!--Review Section-->
-            <br><h2>Review</h2>
-
-                <label for="review">Notes:</label><br>
-                <textarea type="text" id="review" name="review" form="create_landlord"></textarea><br>
-
-                <input type="submit" value="Create" class="btn btn-warning">
+                <input type="text" id="address" name="address" value="{{landlord.address}}"><br>
+                <input type="submit" value="Update" class="btn btn-warning mt-3">
             </div>
         </form>
     </div>

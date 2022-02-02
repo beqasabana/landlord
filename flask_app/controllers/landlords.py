@@ -16,6 +16,9 @@ def new_landlord():
 
 @app.route('/create/landlord', methods = ['POST'])
 def create_landlord():
+    # Create a Rating
+    # Create a Review
+
     # Create Landlord with Rating and Reviews
     landlord_info = {
         'name': request.form['name'],
@@ -37,17 +40,31 @@ def create_landlord():
             'rating': 0,
             'text': request.form['review']
         }
-
     review_added = Review.save(review_data)
     this_user = User.get_user_by_id({'id': session['user']})
     return redirect('/profile/' + this_user.first_name +'/'+ str(session['user']))
 
+@app.route('/edit/landlord/<int:landlord_id>')
+def display_edit(landlord_id):
+    this_user = User.get_user_by_id({'id': session['user']})
+    landlord_to_update = Landlord.get_landlord_by_id({'id': landlord_id})
+    return render_template('edit_landlord.html', user=this_user, landlord=landlord_to_update)
 
+@app.route('/update/landlord/<int:landlord_id>', methods = ['POST'])
+def update_landlord(landlord_id):
+    print(request.form)
+    data = {
+        'id': landlord_id,
+        'name': request.form['name'],
+        'address': request.form['address']
+    }
+    Landlord.update(data)
+    active_user = User.get_user_by_id({'id': session['user']})
+    return redirect('/profile/' + active_user.first_name + '/' + str(active_user.id))
 
 #Delete Landlord
-@app.route('/destroy/landlord/<int:landlord_id>',methods = ['POST'])
+@app.route('/destroy/landlord/<int:landlord_id>')
 def destroy_landlord(landlord_id):
     deleted_landlord = Landlord.delete({'id': landlord_id})
     this_user = User.get_user_by_id({'id': session['user']})
     return redirect('/profile/' + this_user.first_name +'/'+ str(session['user']))
-

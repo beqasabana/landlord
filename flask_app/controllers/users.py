@@ -14,13 +14,7 @@ def index():
             'id': session['user']
         }
         active_user = User.get_user_by_id(data)
-        return render_template('register_login.html', active_user=active_user)
-    return render_template('register_login.html')
-
-@app.route('/register')
-def register_view():
-    if 'user' in session:
-        return redirect('/')
+        return redirect('/profile/' + active_user.first_name + '/' + str(active_user.id))
     return render_template('register_login.html')
 
 @app.route('/edit/profile')
@@ -32,12 +26,6 @@ def update_profile_view():
     }
     active_user = User.get_user_by_id(data)
     return render_template('update_profile.html', active_user=active_user)
-
-@app.route('/login')
-def login_view():
-    if 'user' in session:
-        return redirect('/')
-    return render_template('register_login.html')
 
 @app.route('/profile/<string:name>/<int:id>')
 def dashboard(name, id):

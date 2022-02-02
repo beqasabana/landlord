@@ -17,7 +17,7 @@
         <h1 class="text-center">Welcome {{user.first_name}} {{user.last_name}}!</h1>
 
         <div class="d-flex col-4 justify-content-around">
-            <a class="btn btn-warning" href="/dashboard" >Dashboard</a>
+            <a class="btn btn-warning" href="/profile/{{user.first_name}}/{{user.id}}" >Dashboard</a>
             <a  class="btn btn-warning" href="/logout">Logout</a>
         </div>
     </nav>

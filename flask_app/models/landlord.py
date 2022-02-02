@@ -18,7 +18,7 @@ class Landlord:
     # retrives one landlord with reviews from DB, landlord row id needs to be provided
     @classmethod
     def get_landlord_by_id(cls, data):
-        query = "SELECT * FROM landlords JOIN reviews ON landlords.id=landlord_id JOIN users ON reviews.user_id=users.id WHERE landlords.id=%(id)s"
+        query = "SELECT * FROM landlords LEFT JOIN reviews ON landlords.id=landlord_id LEFT JOIN users ON reviews.user_id=users.id WHERE landlords.id=%(id)s"
         landlord_db = connectToMySQL('landlord').query_db(query, data)
         landlord_cls = Landlord(landlord_db[0])
         rating_count = 0

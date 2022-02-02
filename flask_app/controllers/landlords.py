@@ -43,3 +43,21 @@ def create_landlord():
     review_added = Review.save(review_data)
     this_user = User.get_user_by_id({'id': session['user']})
     return redirect('/profile/' + this_user.first_name +'/'+ str(session['user']))
+
+@app.route('/edit/landlord/<int:landlord_id>')
+def display_edit(landlord_id):
+    this_user = User.get_user_by_id({'id': session['user']})
+    landlord_to_update = Landlord.get_landlord_by_id({'id': landlord_id})
+    return render_template('edit_landlord.html', user=this_user, landlord=landlord_to_update)
+
+@app.route('/update/landlord/<int:landlord_id>', methods = ['POST'])
+def update_landlord(landlord_id):
+    print(request.form)
+    data = {
+        'id': landlord_id,
+        'name': request.form['name'],
+        'address': request.form['address']
+    }
+    Landlord.update(data)
+    active_user = User.get_user_by_id({'id': session['user']})
+    return redirect('/profile/' + active_user.first_name + '/' + str(active_user.id))

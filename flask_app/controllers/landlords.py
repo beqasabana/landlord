@@ -61,3 +61,10 @@ def update_landlord(landlord_id):
     Landlord.update(data)
     active_user = User.get_user_by_id({'id': session['user']})
     return redirect('/profile/' + active_user.first_name + '/' + str(active_user.id))
+
+#Delete Landlord
+@app.route('/destroy/landlord/<int:landlord_id>')
+def destroy_landlord(landlord_id):
+    deleted_landlord = Landlord.delete({'id': landlord_id})
+    this_user = User.get_user_by_id({'id': session['user']})
+    return redirect('/profile/' + this_user.first_name +'/'+ str(session['user']))

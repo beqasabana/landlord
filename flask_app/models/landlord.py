@@ -79,10 +79,10 @@ class Landlord:
     # delete landlord from db needs row id
     @classmethod
     def delete(cls, data):
+        query_review = "DELETE FROM reviews WHERE landlord_id=%(id)s"
         query_landlord = "DELETE FROM landlords WHERE id=%(id)s"
-        query_review = "DELETE FROM reviews WHERE landlord_id=%(id)s" 
-        connectToMySQL('landlord').query_db(query_landlord, data)
         connectToMySQL('landlord').query_db(query_review, data)
+        connectToMySQL('landlord').query_db(query_landlord, data)
         return
 
     # update/edit landlord query need name address and landlord row id to update 

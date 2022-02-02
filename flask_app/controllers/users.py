@@ -14,7 +14,7 @@ def index():
             'id': session['user']
         }
         active_user = User.get_user_by_id(data)
-        return render_template('register_login.html', active_user=active_user)
+        return redirect('/profile/' + active_user.first_name + '/' + str(active_user.id))
     return render_template('register_login.html')
 
 @app.route('/edit/profile')

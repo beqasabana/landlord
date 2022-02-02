@@ -52,6 +52,8 @@ class Landlord:
     def get_all(cls):
         query = "SELECT * FROM landlords LEFT JOIN reviews ON landlords.id=reviews.landlord_id;"
         results = connectToMySQL('landlord').query_db(query)
+        if len(results) == 0:
+            return results
         all_landlords = []
         loop_position = 0
         rating_count = 0

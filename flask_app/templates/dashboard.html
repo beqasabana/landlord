@@ -21,11 +21,14 @@
     <div class="card text-center" style="width: 18rem;">
         <div class="card-body bg-secondary text-white">
             <h5 class="card-title">{{landlord.name}}</a></h5>
-            <h6 class="card-subtitle mb-2 text-white">Average Rating: {{landlord.avg_rating}}</h6>
+            <h6 class="card-subtitle mb-2 text-white">Average Rating: {{landlord.get_average_rating()}}</h6>
                 <div class="card-footer bg-secondary text-white">
                     {% if landlord.user_id == session.user_id %}
                         <a class="card-link text-warning" href="/edit/landlord/{{landlord.id}}"> Edit</a><span> |</span>
-                        <a class="card-link text-warning" href="/destroy/landlord/{{landlord.id}}">Delete</a><span> |</span>
+                        <form class = "text-style-4" action="/destroy/landlord/{{landlord.id}}" method = "POST">
+                            <input type="submit" value = "Delete" class = "text-style-4"> <span> |</span>
+                        </form>
+                        <!-- <a class="card-link text-warning" href="/destroy/landlord/{{landlord.id}}">Delete</a><span> |</span> -->
                     {% endif %}
                         <a class="card-link text-warning" href="/landlord/{{landlord.id}}" >View</a>
                 </div>

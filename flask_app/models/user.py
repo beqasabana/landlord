@@ -29,6 +29,7 @@ class User:
     def get_user_by_id(cls, data):
         query = "SELECT * FROM users WHERE users.id = %(id)s;"
         user = connectToMySQL('landlord').query_db(query, data)
+        print(user)
         return cls(user[0])
 
     # retrives one user from DB by EMAIL

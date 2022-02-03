@@ -25,4 +25,4 @@ def create_review_for_landlord(landlord_id):
             'text': request.form['review']
         }
     review_added = Review.save(review_data)
-    return redirect('/profile/' + active_user.first_name + '/' + str(active_user.id))
+    return redirect('/landlord/' + str(landlord_id))

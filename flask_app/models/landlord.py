@@ -27,6 +27,7 @@ class Landlord:
             review_data = {
                 'id': data['reviews.id'],
                 'landlord_id': data['landlord_id'],
+                'rating': data['rating'],
                 'text': data['text'],
                 'created_at': data['reviews.created_at'],
                 'updated_at': data['reviews.updated_at'],

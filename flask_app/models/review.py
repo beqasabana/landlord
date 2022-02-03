@@ -8,6 +8,7 @@ class Review:
         self.id = data['id']
         self.user = User(data['user_data'])
         self.landlord_id = data['landlord_id']
+        self.rating = data['rating']
         self.text = data['text']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']

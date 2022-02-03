@@ -10,13 +10,14 @@ class Review:
         self.landlord_id = data['landlord_id']
         self.rating = data['rating']
         self.text = data['text']
+        self.file_location = data['file_location']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
 
     # returns inserted row id or False if something goes wrong
     @classmethod
     def save(cls, data):
-        query = "INSERT INTO reviews (landlord_id, user_id, rating, text) VALUES (%(landlord_id)s, %(user_id)s, %(rating)s, %(text)s);"
+        query = "INSERT INTO reviews (landlord_id, user_id, rating, text, file_location) VALUES (%(landlord_id)s, %(user_id)s, %(rating)s, %(text)s, %(file_location)s);"
         review_id = connectToMySQL('landlord').query_db(query, data)
         return review_id
 

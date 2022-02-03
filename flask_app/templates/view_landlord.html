@@ -31,7 +31,7 @@
     <!--Alerts-->
     <div class="d-flex justify-content-around mt-5">
         <div class="body col-4 p-4 bg-secondary ">
-            <form action='/create/review/{{landlord.id}}' method="POST" id= "view_landlord" class="">
+            <form action='/create/review/{{landlord.id}}' method="POST" id= "view_landlord" class="" enctype="multipart/form-data">
                 {% with messages = get_flashed_messages(category_filter=['landlord']) %}
                     {% if messages %}
                     <div class="alert alert-danger" role="alert">
@@ -73,6 +73,7 @@
                     <label for="reviews">Notes:</label><br>
                     <textarea type="text" id="reviews" name="review"></textarea><br>
                     <input type="submit" value="Post" form = "view_landlord" class="btn btn-warning">
+                    <input type="file" name="file" autocomplete="off" required>
                 </form>
                 <!--Posts from Users-->
                 <div class="card col-10 mx-auto my-5 bg-dark text-light">
@@ -84,6 +85,14 @@
                             <p class='card-text'>Written By: {{this_review.user.nickname}}</p>
                             <p class='card-text'>Created At: {{this_review.created_at}}</p>
                             <p class="card-text">Rating: {{this_review.rating}}</p>
+
+                            
+                            <!-- To upload an image -->
+                                <div>
+                                    <img src="/static/uploads/{{this_review.file_location}}" width="200px">
+                                    <!-- <img src="{{ url_for('static', filename='uploads/this_review.file_location') }}" width="200px"> -->
+                                </div>
+                            
                         </div>
                     {% endfor %}
                 </div>

@@ -32,14 +32,16 @@ def create_landlord():
             'landlord_id': new_landlord_id,
             'user_id': session['user'],
             'rating': request.form['rating'],
-            'text': request.form['review']
+            'text': request.form['review'],
+            'file_location': ' '
         }
     except KeyError:
         review_data = {
             'landlord_id': new_landlord_id,
             'user_id': session['user'],
             'rating': 0,
-            'text': request.form['review']
+            'text': request.form['review'],
+            'file_location': ' '
         }
     review_added = Review.save(review_data)
     this_user = User.get_user_by_id({'id': session['user']})

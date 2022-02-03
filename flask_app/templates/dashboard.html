@@ -21,7 +21,7 @@
     <div class="card text-center" style="width: 18rem;">
         <div class="card-body bg-secondary text-white">
             <h5 class="card-title">{{landlord.name}}</a></h5>
-            <<h6 class="card-subtitle mb-2 text-white">Average Rating: {{landlord.avg_rating}}</h6>
+            <h6 class="card-subtitle mb-2 text-white">Average Rating: {{landlord.avg_rating}}</h6>
                 <div class="card-footer bg-secondary text-white">
                     {% if landlord.user.id == session.user %}
                         <a class="card-link text-warning" href="/edit/landlord/{{landlord.id}}"> Edit</a><span> |</span>

@@ -13,7 +13,7 @@
 <body>
     <!--NavBar Start-->
     <nav class="navbar navbar-expand-lg navbar-light bg-secondary d-flex justify-content-between align-items-center col-12">
-        <h1 class="text-center">Welcome {{user.f_name}} {{user.l_name}}!</h1>
+        <h1 class="text-center">Welcome {{user.first_name}} {{user.last_name}}!</h1>
 
         <div class="d-flex col-4 justify-content-around">
             <a class="btn btn-warning" href="/new/landlord" >Add Landlord</a>
@@ -22,65 +22,73 @@
     </nav>
 
     <div class="container  mt-3">
-        <h2>Landlord:{{landlords.name}}</h2>
+        <h2>Landlord: {{landlord.name}}</h2>
     </div>
     <!--Star Rating System-->
-    <div class="container mt-3">
-        <div class="star-widget">
-            <input type="radio" name="rating" id="rate-5">
-            <label for="rate-5"class="fas fa-star" value="{{landlord.rating}}"></label>
-                        
-            <input type="radio" name="rating" id="rate-4">
-            <label for="rate-4" class="fas fa-star" value="{{landlord.rating}}"></label>
-                        
-            <input type="radio" name="rating" id="rate-3">
-            <label for="rate-3" class="fas fa-star" value="{{landlord.rating}}"></label>
-                        
-            <input type="radio" name="rating" id="rate-2">
-            <label for="rate-2" class="fas fa-star" value="{{landlord.rating}}"></label>
-                        
-            <input type="radio" name="rating" id="rate-1">
-            <label for="rate-1" class="fas fa-star" value="{{landlord.rating}}"></label>
-        </div>
+    <div class = "container">
+        <h3>Overall Rating: {{landlord.avg_rating}}</h3>
     </div>
-
     <!--Alerts-->
     <div class="d-flex justify-content-around mt-5">
-        <form action='/landlord/view' method="post" id=view_landlord class="col-4 p-4 bg-secondary ">
-            {% with messages = get_flashed_messages(category_filter=['landlord']) %}
-                {% if messages %}
-                <div class="alert alert-danger" role="alert">
-                    <strong>Alert!</strong>
-                        {% for message in messages %}
-                        <p>{{message}}</p>
-                        {% endfor %}
+        <div class="body col-4 p-4 bg-secondary ">
+            <form action='/create/review/{{landlord.id}}' method="POST" id= "view_landlord" class="">
+                {% with messages = get_flashed_messages(category_filter=['landlord']) %}
+                    {% if messages %}
+                    <div class="alert alert-danger" role="alert">
+                        <strong>Alert!</strong>
+                            {% for message in messages %}
+                            <p>{{message}}</p>
+                            {% endfor %}
+                    </div>
+                    {% endif %}
+                {% endwith %}
+                
+    
+                <!--Review Section-->
+                <h2>Leave a Review</h2>
+                    <!-- <label for="title">Title:</label><br>
+                    <input type="text" id="title" name="title"><br> -->
+    
+                    <label for="rating">Rating:</label><br>
+                    <!--Star Rating System-->
+                    <div class="container mt-3">
+                        <div class="star-widget">
+                            <input type="radio" name="rating" id="rate-5" value="5">
+                            <label for="rate-5"class="fas fa-star" value="5"></label>
+                            
+                            <input type="radio" name="rating" id="rate-4" value="4">
+                            <label for="rate-4" class="fas fa-star" value="4"></label>
+                            
+                            <input type="radio" name="rating" id="rate-3" value="3">
+                            <label for="rate-3" class="fas fa-star" value="3"></label>
+                            
+                            <input type="radio" name="rating" id="rate-2" value="2">
+                            <label for="rate-2" class="fas fa-star" value="2"></label>
+                            
+                            <input type="radio" name="rating" id="rate-1" value="1">
+                            <label for="rate-1" class="fas fa-star" value="1"></label>
+                        </div>
+                    </div>
+    
+                    <label for="reviews">Notes:</label><br>
+                    <textarea type="text" id="reviews" name="review"></textarea><br>
+                    <input type="submit" value="Post" form = "view_landlord" class="btn btn-warning">
+                </form>
+                <!--Posts from Users-->
+                <div class="card col-10 mx-auto my-5 bg-dark text-light">
+                    <h4 class = "mx-auto my-2">Previous Reviews</h4>
+                    {% for this_review in landlord.reviews%}
+                    <hr>
+                        <div class="card-body">
+                            <p class="card-text">Post: {{this_review.text}}</p>
+                            <p class='card-text'>Written By: {{this_review.user.nickname}}</p>
+                            <p class='card-text'>Created At: {{this_review.created_at}}</p>
+                            <p class="card-text">Rating: {{this_review.rating}}</p> 
+                            <p class='card-text'>Comments: </p>
+                        </div>
+                    {% endfor %}
                 </div>
-                {% endif %}
-            {% endwith %}
-
-
-            <!--Review Section-->
-            <h2>Leave a Review</h2>
-                <label for="title">Title:</label><br>
-                <input type="text" id="title" name="title"><br>
-
-                <label for="rating">Rating:</label><br>
-                <input type="text" id="rating" name="rating"><br>
-
-                <label for="reviews">Notes:</label><br>
-                <textarea type="text" id="reviews" name="review" form="create_landlord"></textarea><br>
-
-
-            <!--Posts from Users-->
-            <div class="card col-10 mx-auto my-5 bg-dark text-light">
-                <div class="card-body">
-                    <p class="card-text">Post {{}}</p>
-                    <p class="card-text">Rating: {{}}</p>
-                    <p class='card-text'>Comments:{{}}</p>
-                </div>
-            </div>
-            <input type="submit" value="Reply" class="btn btn-warning">
-        </form>
+        </div>
     </div>
 </body>
 </html>

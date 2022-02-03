@@ -1,3 +1,4 @@
+
 from flask_app import app
 from flask import render_template, redirect, request, session, flash
 from flask_app.models.user import User
@@ -52,7 +53,6 @@ def display_edit(landlord_id):
 
 @app.route('/update/landlord/<int:landlord_id>', methods = ['POST'])
 def update_landlord(landlord_id):
-    print(request.form)
     data = {
         'id': landlord_id,
         'name': request.form['name'],
@@ -68,3 +68,10 @@ def destroy_landlord(landlord_id):
     deleted_landlord = Landlord.delete({'id': landlord_id})
     this_user = User.get_user_by_id({'id': session['user']})
     return redirect('/profile/' + this_user.first_name +'/'+ str(session['user']))
+
+#Display Landlord
+@app.route('/landlord/<int:landlord_id>')
+def view_landlord(landlord_id):
+    this_user = User.get_user_by_id({'id': session['user']})
+    this_landlord = Landlord.get_landlord_by_id({'id': landlord_id})
+    return render_template('view_landlord.html', landlord = this_landlord, user = this_user)

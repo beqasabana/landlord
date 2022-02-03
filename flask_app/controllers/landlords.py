@@ -19,7 +19,7 @@ def new_landlord():
 def create_landlord():
     # Create a Rating
     # Create a Review
-    print("HIIII", request.form)
+
     # Create Landlord with Rating and Reviews
     landlord_info = {
         'name': request.form['name'],

@@ -11,20 +11,9 @@ class Landlord:
         self.name = data['name']
         self.address = data['address']
         self.avg_rating = 0
-        # self.reviews = Review.get_all_for_landlord({'landlord_id': self.id})
         self.reviews = []
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
-
-    def get_average_rating(self):
-        all_reviews = self.reviews
-        total = 0
-        num_reviews = len(all_reviews)
-        print(num_reviews)
-        for review in all_reviews:
-            total+=review.rating
-        avg = total
-        return avg
 
     # retrives one landlord with reviews from DB, landlord row id needs to be provided
     @classmethod
@@ -66,8 +55,6 @@ class Landlord:
         if len(results) == 0:
             return results
         all_landlords = []
-        # for row in results:
-        #     all_landlords.append(cls(row))
         loop_position = 0
         rating_count = 0
         sum_of_ratings = 0

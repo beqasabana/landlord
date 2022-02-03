@@ -10,7 +10,6 @@ from datetime import datetime
 @app.route('/create/review/<int:landlord_id>', methods = ['POST'])
 def create_review_for_landlord(landlord_id):
     active_user = User.get_user_by_id({'id': session['user']})
-    print("hiiiiii", request.form)
     try:
         review_data = {
             'landlord_id': landlord_id,
